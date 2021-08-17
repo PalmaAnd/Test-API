@@ -1,19 +1,18 @@
+using DocumentsService.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using Test_API.Models;
-using DocumentsService.Services;
-using TodoApi.Models;
-using Microsoft.EntityFrameworkCore;
 
 namespace Test_API
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,9 +23,20 @@ namespace Test_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                                  builder =>
+                                  {
+                                      builder.WithOrigins("http://localhost:4200/list").AllowAnyHeader()
+                                                  .AllowAnyMethod();
+                                  });
+            });
+
             services.Configure<DocumentsDatabaseSettings>(this.Configuration.GetSection("DocumentsDatabaseSettings"));
-            
-            services.AddDbContext<DocumentContext>(options=>options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=DocumentsStorage"));
+
+            services.AddDbContext<DocumentContext>(options => options.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=DocumentsStorage"));
 
             services.AddScoped<DocumentService>();
 
@@ -51,6 +61,8 @@ namespace Test_API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors();
 
             app.UseAuthorization();
 

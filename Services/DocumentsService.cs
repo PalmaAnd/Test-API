@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Test_API.Models;
-using TodoApi.Models;
 
 namespace DocumentsService.Services
 {
@@ -17,14 +16,13 @@ namespace DocumentsService.Services
 
         public List<Documentitem> Get()
         {
-            try{
+            try
+            {
 
-                System.Diagnostics.Debug.WriteLine("GET ohne number");
                 return context.Document.ToList();
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("FEHLER INCOMING");
                 System.Diagnostics.Debug.WriteLine(e);
                 return null;
             }
@@ -34,13 +32,11 @@ namespace DocumentsService.Services
         {
             try
             {
-                System.Diagnostics.Debug.WriteLine("GET mit number");
                 return context.Document.Where(document => document.Number == number).FirstOrDefault();
-                
+
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("FEHLER INCOMING");
                 System.Diagnostics.Debug.WriteLine(e);
                 return null;
             }
@@ -50,17 +46,15 @@ namespace DocumentsService.Services
 
         public Documentitem Create(Documentitem document)
         {
-            System.Diagnostics.Debug.WriteLine("POST");
             try
             {
-            context.Document.Add(document);
-            context.SaveChanges(true);
-            return document;
+                context.Document.Add(document);
+                context.SaveChanges(true);
+                return document;
 
             }
             catch (Exception e)
             {
-                System.Diagnostics.Debug.WriteLine("FEHLER INCOMING");
                 System.Diagnostics.Debug.WriteLine(e);
                 return null;
             }
@@ -75,7 +69,9 @@ namespace DocumentsService.Services
 
         public void Remove(long id)
         {
-            //context.Document.Remove(documentitem);
+            context.Document.Remove(Get(id));
+            context.SaveChanges(true);
+
         }
 
     }

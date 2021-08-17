@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TodoApi.Models;
+using Test_API.Models;
 
 namespace Test_API.Migrations
 {
@@ -20,7 +20,7 @@ namespace Test_API.Migrations
                 .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("TodoApi.Models.Documentitem", b =>
+            modelBuilder.Entity("Test_API.Models.Documentitem", b =>
                 {
                     b.Property<long>("Number")
                         .ValueGeneratedOnAdd()
